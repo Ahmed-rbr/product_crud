@@ -11,29 +11,39 @@
   </head>
   <body>
     <h1>Product crud!</h1>
+    <p>
+      <a href="product_form.php" class="btn btn-success">Create</a>
+    </p>
     <table class="table">
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">product</th>
+      <th scope="col">#</th>
       <th scope="col">image</th>
+
+      <th scope="col">product</th>
       <th scope="col">price</th>
-    </tr>
+      <th  scope="col"> Create Date</th>
+      <th  scope="col"> Action</th>
+      </tr>
   </thead>
   <tbody>
-  <?php if(!empty($products)){ ?>
+  <?php if(!empty($products)): ?>
 
-  <?php foreach($products as $product){?>
+  <?php foreach($products as $product):?>
 
   <tr>
-      <th scope="row"><?= $product['id']?></th>
-      <td>  <?= $product['title']?></td>
-      <td>  <?= $product['image'] ?? 'no img'?></td>
-      <td>  <?= $product['price']?></td>
-    
+      <th scope="row"><?= htmlspecialchars( $product['id']) ?? '' ?></th>
+      <td><?= !empty($product['image']) ? '<img src="' . htmlspecialchars($product['image']) . '" width="50">' : 'no img' ?></td>
+            <td>  <?=htmlspecialchars( $product['title'])?? '' ?></td>
+      <td>  <?=htmlspecialchars( $product['price'])??''?></td>
+      <td>  <?= htmlspecialchars($product['creat_date'])?? ''?></td>
+    <td><button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
+    <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
+
+  </td>
     </tr>
-    <?php }?>
-    <?php }?>
+    <?php endforeach;?>
+    <?php endif?>
 
   
   </tbody>
