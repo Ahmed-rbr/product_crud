@@ -21,6 +21,7 @@
       <th scope="col">image</th>
 
       <th scope="col">product</th>
+      <th scope="col">description</th>
       <th scope="col">price</th>
       <th  scope="col"> Create Date</th>
       <th  scope="col"> Action</th>
@@ -34,12 +35,19 @@
   <tr>
       <th scope="row"><?= htmlspecialchars( $product['id']) ?? '' ?></th>
       <td><?= !empty($product['image']) ? '<img src="' . htmlspecialchars($product['image']) . '" width="50">' : 'no img' ?></td>
-            <td>  <?=htmlspecialchars( $product['title'])?? '' ?></td>
+      <td>  <?=htmlspecialchars( $product['title'])?? '' ?></td>
+      <td>  <?=htmlspecialchars( $product['description'])?? '' ?></td>
       <td>  <?=htmlspecialchars( $product['price'])??''?></td>
       <td>  <?= htmlspecialchars($product['creat_date'])?? ''?></td>
     <td>
-     <button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
-     <form style="display:inline-block ;" action="delete product.php" method="post">
+     <form style="display:inline-block ;" action="edite_product.php" method="post">
+      <input type="hidden" name="id" value="<?= htmlspecialchars( $product['id']) ?? '' ?>" >
+      <button type="submit" name="edite" class="btn btn-sm btn-outline-primary">Edit</button>
+      </form>
+
+
+
+     <form style="display:inline-block ;" action="delete_product.php" method="post">
       <input type="hidden" name="id" value="<?= htmlspecialchars( $product['id']) ?? '' ?>" >
       <button type="submit" name="delete" class="btn btn-sm btn-outline-danger">Delete</button></form>
 

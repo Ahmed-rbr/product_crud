@@ -33,7 +33,7 @@ endif ?>
 
 </div>
   <div class="col-12">
-    <label for="price" class="form-label">Price:</label>
+    <label for="price" step="0.01" class="form-label">Price:</label>
     <input type="number" name="price" class="form-control" id="price" placeholder="120...">
   </div>
 
