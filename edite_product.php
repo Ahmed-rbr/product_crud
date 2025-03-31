@@ -53,7 +53,6 @@ $id=$_POST['id'];
 $title = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $price = trim($_POST['price'] ?? '');
-    $image = trim($_POST['img'] ?? '');
 
     $errors = [];
     
@@ -61,14 +60,46 @@ $title = trim($_POST['title'] ?? '');
     if (empty($description)) $errors[] = "Description is required";
     if (!is_numeric($price) || $price <= 0) $errors[] = "Price must be a positive number";
 
-if(empty($errors))
+if(empty($errors)){
+  $img = $_FILES['img']?? '';
+$imgPath='';
+
+if($img && $img['error']=== UPLOAD_ERR_OK){
+  $allowsExt = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+  $fileExt = strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
+if(!in_array($fileExt,$allowsExt)){
+  $errors[] = "select only png jpg gif  images ";
+}else{
+$uplodePath='img/'.uniqid().'/';
+if(!file_exists($uplodePath)){
+  mkdir($uplodePath,0755,true);
+}else{
+  $errors[] = "failed to create dir";
+
+}
+$imgPath=$uplodePath.basename($img['name']);
+if(!move_uploaded_file($img['tmp_name'], $imgPath)){
+  $errors[] = "failed to save image";
+
+}
+
+
+}
+
+}else{
+  $errors[] = "please selecte valid img";
+
+}
+
+
+}
 
 
     if(empty($errors)){
 try{$pdo->beginTransaction();
   $stmt=$pdo->prepare('UPDATE products SET title=:title, description=:description, image=:image, price=:price WHERE id=:id');
   $stmt->execute([':title'=>$title,
-  ':description'=>$description,':image'=>$image ,':price'=>$price,':id'=>$id
+  ':description'=>$description,':image'=>$imgPath ,':price'=>$price,':id'=>$id
 ]);
 $pdo->commit();
 header('Location: index.php');
@@ -83,7 +114,7 @@ error_log('Failed to update: '.$e->getMessage());
 $_SESSION['err'] = ['Failed to update product'];
 $_SESSION['title'] = $title;
 $_SESSION['description'] = $description;
-$_SESSION['img'] = $image;
+$_SESSION['img'] = $imgPath;
 $_SESSION['price'] = $price;
 $_SESSION['id'] = $id;
 header('Location: edit_form.php?id='.$id);
@@ -93,7 +124,7 @@ exit();
 $_SESSION['err'] = $errors;
 $_SESSION['title'] = $title;
 $_SESSION['description'] = $description;
-$_SESSION['img'] = $image;
+$_SESSION['img'] = $imgPath;
 $_SESSION['price'] = $price;
 $_SESSION['id'] = $id;
 header('Location: edit_form.php?id='.$id);
