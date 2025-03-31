@@ -14,7 +14,7 @@ session_start();
 </head>
 <body>
 
-<form action="create_product.php" method="post" class="row g-3 mt-5 w-50 mx-auto border border-2 p-4 shadow-sm rounded border-primary">
+<form action="create_product.php" enctype="multipart/form-data" method="post" class="row g-3 mt-5 w-50 mx-auto border border-2 p-4 shadow-sm rounded border-primary">
 <a class="btn btn-outline-danger" href="index.php" role="button">back home</a>
 
 <h2>Add Product:</h2>
@@ -24,7 +24,10 @@ session_start();
       <h3 style="color: red;"><?=htmlspecialchars($_SESSION['err']) ?? '' ?></h3>
 <?php unset($_SESSION['err']);
 endif ?>
-
+<div class="mb-3">
+  <label for="formFile" class="form-label">Select Product img:</label>
+  <input class="form-control" type="file" name="img" id="formFile">
+</div>
  <div class="col-12">
     <label for="title" class="form-label">Title:</label>
     <input type="text" name="title" class="form-control" id="title">
@@ -40,11 +43,7 @@ endif ?>
     <input type="number" name="price" class="form-control" id="price" placeholder="120...">
   </div>
 
-  <div class="col-12">
-    <label for="img" class="form-label">Product img:</label>
-    <input type="text" class="form-control" name="img" id="img" placeholder="paste your URL">
-
-  </div>
+  
   
  
   

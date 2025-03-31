@@ -60,7 +60,10 @@ $title = trim($_POST['title'] ?? '');
     if (empty($title)) $errors[] = "Title is required";
     if (empty($description)) $errors[] = "Description is required";
     if (!is_numeric($price) || $price <= 0) $errors[] = "Price must be a positive number";
-    if (empty($image)) $errors[] = "Invalid image URL";
+
+if(empty($errors))
+
+
     if(empty($errors)){
 try{$pdo->beginTransaction();
   $stmt=$pdo->prepare('UPDATE products SET title=:title, description=:description, image=:image, price=:price WHERE id=:id');

@@ -19,7 +19,7 @@ $errors = $_SESSION['err'] ?? [];
 
 </head>
 <body>
-<form action="edite_product.php" method="post" class="row g-3 mt-5 w-50 mx-auto border border-2 p-4 shadow-sm rounded border-primary">
+<form action="edite_product.php" enctype="multipart/form-data" method="post" class="row g-3 mt-5 w-50 mx-auto border border-2 p-4 shadow-sm rounded border-primary">
 <a class="btn btn-outline-danger" href="index.php" role="button">back home</a>
 
 <h2>Add Product:</h2>
@@ -31,6 +31,10 @@ $errors = $_SESSION['err'] ?? [];
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
+    <div class="mb-3">
+  <label for="formFile" class="form-label">Select Product img:</label>
+  <input class="form-control" value="<?=htmlspecialchars( $img)?>" name="img" type="file" id="formFile">
+</div>
  <div class="col-12">
     <label for="title" class="form-label">Title:</label>
     <input type="text" value="<?= htmlspecialchars($title)?>" name="title" class="form-control" id="title">
@@ -46,11 +50,7 @@ $errors = $_SESSION['err'] ?? [];
     <input type="number" value="<?=htmlspecialchars( $price)?>" name="price" class="form-control" id="price" placeholder="120...">
   </div>
 <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?? ''?>">
-  <div class="col-12">
-    <label for="img" class="form-label">Product img:</label>
-    <input type="text" class="form-control" value="<?=htmlspecialchars( $img)?>" name="img" id="img" placeholder="paste your URL">
-
-  </div>
+ 
   
  
   
