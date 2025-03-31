@@ -7,3 +7,11 @@
 body {
   padding: 50px;
 }
+
+.div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin-bottom: 36px;
+}

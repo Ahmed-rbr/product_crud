@@ -13,8 +13,11 @@ session_start();
 
 </head>
 <body>
+
 <form action="create_product.php" method="post" class="row g-3 mt-5 w-50 mx-auto border border-2 p-4 shadow-sm rounded border-primary">
- <h2>Add Product:</h2>
+<a class="btn btn-outline-danger" href="index.php" role="button">back home</a>
+
+<h2>Add Product:</h2>
  <?php if(isset($_SESSION['err'])): 
   
   ?>
