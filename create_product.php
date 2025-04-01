@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
     if($img&&$img['error']===UPLOAD_ERR_OK){
 $allowsEX=['image/png','image/jpeg','image/gif'];
-$fileExt = strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
+$fileExt = $img['type'];
 
 if(!in_array($fileExt,$allowsEX)){
   $_SESSION['err'] = 'Only chosse PNG,JPG,GIF images.';

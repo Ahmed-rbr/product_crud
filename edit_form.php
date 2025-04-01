@@ -12,10 +12,12 @@ $errors = $_SESSION['err'] ?? [];
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add-product</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="app.css">
 
 </head>
 <body>
@@ -31,9 +33,10 @@ $errors = $_SESSION['err'] ?? [];
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
+    <?php if($img): ?> <img class="img" src="<?=htmlspecialchars( $img)?>" alt="">  <?php endif?>
     <div class="mb-3">
   <label for="formFile" class="form-label">Select Product img:</label>
-  <input class="form-control" value="<?=htmlspecialchars( $img)?>" name="img" type="file" id="formFile">
+  <input class="form-control"  name="img" type="file" id="formFile">
 </div>
  <div class="col-12">
     <label for="title" class="form-label">Title:</label>

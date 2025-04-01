@@ -22,9 +22,9 @@ try{
   if($result){
   $_SESSION['title']=$result['title'];
   $_SESSION['description']=$result['description'];
-  $_SESSION['img']=$result['image'];
   $_SESSION['price']=$result['price'];
   $_SESSION['id']=$result['id'];
+  $_SESSION['img']=$result['image'];
   $pdo->commit();
 
 header('Location: edit_form.php');exit();
@@ -62,12 +62,19 @@ $title = trim($_POST['title'] ?? '');
 
 if(empty($errors)){
   $img = $_FILES['img']?? '';
-$imgPath='';
+$imgPath=$result['image'];
+
+if($result['image']){
+  unlink($result['image']);
+}
 
 if($img && $img['error']=== UPLOAD_ERR_OK){
-  $allowsExt = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-  $fileExt = strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
-if(!in_array($fileExt,$allowsExt)){
+  $allowsExt = ['image/png', 'image/jpeg',  'image/gif'];
+  $fileExt = $img['type'];
+
+if(!in_array($fileExt,$allowsExt)){ 
+
+
   $errors[] = "select only png jpg gif  images ";
 }else{
 $uplodePath='img/'.uniqid().'/';
