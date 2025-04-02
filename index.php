@@ -4,21 +4,27 @@ require_once "db.php";
 $products = [];
 
 try {
-    $pdo->beginTransaction();
     
-    if (isset($_GET['serch']) && !empty(trim($_GET['serch']))) {
-        $searchTerm = '%' . trim($_GET['serch']) . '%';
-        $stmt = $pdo->prepare('SELECT * FROM products WHERE title LIKE :term OR description LIKE :term ORDER BY creat_date DESC');
+    if (isset($_GET['search']) && !empty(trim($_GET['search']))) {
+      $searchTerm = '%' . trim($_GET['search']) . '%';
+       
+      $stmt = $pdo->prepare('SELECT * FROM products WHERE title LIKE :term ORc CAST(description AS CHAR) LIKE :descTerm');
+      $stmt->bindValue(':term', $searchTerm, PDO::PARAM_STR);
+      $stmt->bindValue(':descTerm', $searchTerm, PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+       
+             
+             
     } else {
         $stmt = $pdo->prepare('SELECT * FROM products ORDER BY creat_date DESC');
         $stmt->execute();
     }
     
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $pdo->commit();
 
 } catch (PDOException $e) {
-    $pdo->rollBack();
     error_log('Failed to get products: ' . $e->getMessage());
     $products = [];
 }
@@ -44,16 +50,13 @@ try {
     <form action="index.php" method="get">
       <div class="w-75 input-group mb-3">
         <input type="text" class="form-control" placeholder="enter Product name" 
-               name="serch" value="<?= htmlspecialchars($_GET['serch'] ?? '') ?>">
+               name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
         <button class="btn btn-success" type="submit" id="button-addon2">Search</button>
         <a href="index.php" class="btn btn-outline-secondary">Reset</a>
 
       </div>
     </form>
-    
-    <?php if(isset($_GET['serch']) && empty($products)): ?>
-      <div class="alert alert-info">No products found matching your search</div>
-    <?php endif; ?>
+
     
     <table class="table">
   <thead>
@@ -69,13 +72,19 @@ try {
       </tr>
   </thead>
   <tbody>
+  <?php if(isset($_GET['search']) && empty($products)): ?>
+      <div class="alert alert-info">No products found matching your search</div>
+    <?php endif; ?>
+    
   <?php if(!empty($products)): ?>
 
   <?php foreach($products as $product):?>
 
   <tr>
       <th scope="row"><?= htmlspecialchars( $product['id']) ?? '' ?></th>
-      <td><?= !empty($product['image']) ? '<img src="' . htmlspecialchars($product['image']) . '" width="50">' : 'no img' ?></td>
+      <td>
+    <?= !empty($product['image']) ? '<img src="' . htmlspecialchars($product['image']) . '" width="50" height="50" style="object-fit:cover; border-radius:5px;">' : '<span class="text-muted">No Image</span>' ?>
+</td>
       <td>  <?=htmlspecialchars( $product['title'])?? '' ?></td>
       <td>  <?=htmlspecialchars( $product['description'])?? '' ?></td>
       <td>  <?=htmlspecialchars( $product['price'])??''?></td>
